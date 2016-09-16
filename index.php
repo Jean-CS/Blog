@@ -34,8 +34,7 @@ if ($stmt === false) {
 </head>
 <body>
 
-    <h1>Blog title</h1>
-    <p>This paragraph summarises what the blod is about.</p>
+    <?php require 'templates/title.php'; ?>
 
     <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
         <h2>

@@ -1,9 +1,6 @@
 <?php
 
-// Work out the path to the database, so SQLite/PDO can connect
-$root = __DIR__;
-$db = $root . '/data/data.sqlite';
-$dsn = 'sqlite:' . $db;
+require_once 'lib/common.php';
 
 // Get the post ID
 if (isset($_GET['post_id'])) {
@@ -14,7 +11,7 @@ if (isset($_GET['post_id'])) {
 }
 
 // Connect to the database, run a query, handle errors
-$pdo = new PDO($dsn);
+$pdo = getPDO();
 $stmt = $pdo->prepare('
     SELECT
         title, created_at, body

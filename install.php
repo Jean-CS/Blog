@@ -1,8 +1,11 @@
 <?php
+
+require_once 'lib/common.php';
+
 // Get the PDO DSN string
-$root = realpath(__DIR__);
-$database = $root . '/data/data.sqlite';
-$dsn = 'sqlite:' . $database;
+$root = getRootPath();
+$db = getDatabasePath();
+
 $error = '';
 
 // A security measure, to avoid anyone resetting the database if it already exists
@@ -31,7 +34,7 @@ if (!$error) {
 
 // Connect to the new database and try to run the SQL commands
 if (!$error) {
-    $pdo = new PDO($dsn);
+    $pdo = getPDO();
     $result = $pdo->exec($sql);
     if ($result === false) {
         $error = 'Could not run SQL: ' . print_r($pdo->errorInfo(), true);

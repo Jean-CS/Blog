@@ -1,6 +1,7 @@
 <?php
 
 require_once 'lib/common.php';
+require_once 'lib/view-post.php';
 
 // Get the post ID
 if (isset($_GET['post_id'])) {
@@ -12,29 +13,7 @@ if (isset($_GET['post_id'])) {
 
 // Connect to the database, run a query, handle errors
 $pdo = getPDO();
-$stmt = $pdo->prepare('
-    SELECT
-        title, created_at, body
-    FROM
-        post
-    WHERE
-        id = :id'
-);
-
-if ($stmt === false) {
-    throw new Exception('There was a problem preparing this query');
-}
-
-$result = $stmt->execute([
-    'id' => $postId,
-]);
-
-if ($result === false) {
-    throw new Exception('There was a problem preparing this query');
-}
-
-// Get a row
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$row = getPostRow($pdo, $postId);
 
 // Swap line feed for paragraph breaks
 $bodyText = htmlEscape($row['body']);
@@ -90,6 +69,6 @@ $paraText = str_replace("\n", "</p><p>", $bodyText);
                 </div>
             </div>
         <?php endforeach ?>
-        
+
     </body>
 </html>

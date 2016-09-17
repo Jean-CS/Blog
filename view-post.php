@@ -63,7 +63,7 @@ $paraText = str_replace("\n", "</p><p>", $bodyText);
         </h2>
 
         <div>
-            <?php echo $row['created_at']; ?>
+            <?php echo convertSqlDate($row['created_at']); ?>
         </div>
 
         <p>

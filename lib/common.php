@@ -71,4 +71,27 @@ function countCommentsForPost($postId) {
     return (int) $stmt->fetchColumn();
 }
 
+/**
+ * Returns all the comments for the specified post
+ * @param  integer $postId
+ */
+function getCommentsForPost($postId) {
+    $pdo = getPdo();
+    $sql = "
+        SELECT
+            id, name, text, created_at, website
+        FROM
+            comment
+        WHERE
+            post_id = :post_id
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'post_id' => $postId,
+    ]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
  ?>

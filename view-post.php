@@ -36,6 +36,10 @@ if ($result === false) {
 // Get a row
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Swap line feed for paragraph breaks
+$bodyText = htmlEscape($row['body']);
+$paraText = str_replace("\n", "</p><p>", $bodyText);
+
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +67,10 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
         </div>
 
         <p>
-            <?php echo htmlEscape($row['body']); ?>
+            <?php
+            // Thsi is already escaped so doesnt need further escaping
+            echo $paraText;
+             ?>
 
         </p>
     </body>

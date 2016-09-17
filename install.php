@@ -9,17 +9,17 @@ $db = getDatabasePath();
 $error = '';
 
 // A security measure, to avoid anyone resetting the database if it already exists
-if (is_readable($database) && filesize($database) > 0) {
+if (is_readable($db) && filesize($db) > 0) {
     $error = 'Please delete the existing database manually before installing it afresh';
 }
 
 // Create an empty file for the database
 if (!$error) {
-    $createdOk = @touch($database);
+    $createdOk = @touch($db);
     if (!$createdOk) {
         $error = sprintf(
             'Could not create the database, please allow the server to create new files in \'%s\'',
-            dirname($database)
+            dirname($db)
         );
     }
 }
@@ -42,14 +42,20 @@ if (!$error) {
 }
 
 // See how many rows we created, if any
-$count = null;
-if (!$error) {
-    $sql = "SELECT COUNT(*) AS c FROM post";
-    $stmt = $pdo->query($sql);
-    if ($stmt) {
-        $count = $stmt->fetchColumn();
+$count = array();
+
+foreach (array('post', 'comment') as $tableName) {
+
+    if (!$error) {
+        $sql = "SELECT COUNT(*) AS c FROM " . $tableName;
+        $stmt = $pdo->query($sql);
+        if ($stmt) {
+            // We sotre each count in an associative array
+            $count[$tableName] = $stmt->fetchColumn();
+        }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -79,9 +85,17 @@ if (!$error) {
     <?php else: ?>
         <div class="success box">
             The database and demo data was created OK.
-            <?php if ($count): ?>
-                <?php echo $count ?> new rows were created.
-            <?php endif ?>
+
+            <?php foreach (array('post', 'comment') as $tableName): ?>
+                <?php if (isset($count[$tableName])): ?>
+                    <?php // Prints the count ?>
+                    <?php echo $count[$tableName] ?> new
+                    <?php // Prints the name of the thing ?>
+                    <?php echo $tableName ?>s
+                    were created.
+                <?php endif ?>
+            <?php endforeach ?>
+
         </div>
     <?php endif ?>
 </body>

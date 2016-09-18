@@ -4,7 +4,7 @@
  * Blog install function
  * @return array(count array, error string)
  */
-function installBlog() {
+function installBlog(PDO $pdo) {
     // Get the PDO DSN string
     $root = getRootPath();
     $db = getDatabasePath();
@@ -37,7 +37,6 @@ function installBlog() {
 
     // Connect to the new database and try to run the SQL commands
     if (!$error) {
-        $pdo = getPDO();
         $result = $pdo->exec($sql);
         if ($result === false) {
             $error = 'Could not run SQL: ' . print_r($pdo->errorInfo(), true);

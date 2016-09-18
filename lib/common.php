@@ -42,9 +42,13 @@ function htmlEscape($html) {
 }
 
 function convertSqlDate($sqlDate) {
-    $date = DateTime::createFromFormat('Y-m-d', $sqlDate);
+    $date = DateTime::createFromFormat('Y-m-d H:i:s', $sqlDate);
 
-    return $date->format('d M Y');
+    return $date->format('d M Y H:i:s');
+}
+
+function getSqlDateForNow() {
+    return date('Y-m-d H:i:s');
 }
 
 /**

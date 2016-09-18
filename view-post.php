@@ -46,9 +46,7 @@ if($_POST) {
     );
 }
 
-// Swap line feed for paragraph breaks
-$bodyText = htmlEscape($row['body']);
-$paraText = str_replace("\n", "</p><p>", $bodyText);
+
 
 ?>
 
@@ -76,12 +74,8 @@ $paraText = str_replace("\n", "</p><p>", $bodyText);
             <?php echo convertSqlDate($row['created_at']); ?>
         </div>
 
-        <p>
-            <?php
-            // Thsi is already escaped so doesnt need further escaping
-            echo $paraText;
-             ?>
-        </p>
+        <?php // This is already escaped, so doesnt need further escaping ?>
+        <?php echo convertNewLinesToParagraphs($row['body']); ?>
 
         <h3><?php echo countCommentsForPost($postId); ?> comments</h3>
 
@@ -96,7 +90,8 @@ $paraText = str_replace("\n", "</p><p>", $bodyText);
                     <?php echo convertSqlDate($comment['created_at']); ?>
                 </div>
                 <div class="comment-body">
-                    <?php echo htmlEscape($comment['text']); ?>
+                    <?php // This is already escaped ?>
+                    <?php echo convertNewLinesToParagraphs($row['text']); ?>
                 </div>
             </div>
         <?php endforeach ?>

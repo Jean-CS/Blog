@@ -94,6 +94,17 @@ function getCommentsForPost($postId) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Converts unsafe text to safe, paragraphed HTML
+ * @param  string $text
+ * @return string
+ */
+function convertNewLinesToParagraphs($text) {
+    $escaped = htmlEscape($text);
+
+    return '<p>' . str_replace("\n", "</p><p>", $escaped . '</p>');
+}
+
 function redirectAndExit($script) {
     // Get the domain-relative URL (e.g. /blog/wtv.php or /wtv.php) and work
     // out the folder (e.g. /blog/ or /)

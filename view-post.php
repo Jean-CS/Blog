@@ -15,6 +15,11 @@ if (isset($_GET['post_id'])) {
 $pdo = getPDO();
 $row = getPostRow($pdo, $postId);
 
+// If the post does not exist, lets deal with that here
+if (!$row) {
+    redirectAndExit('index.php?not=found=1');
+}
+
 // Swap line feed for paragraph breaks
 $bodyText = htmlEscape($row['body']);
 $paraText = str_replace("\n", "</p><p>", $bodyText);

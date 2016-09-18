@@ -94,4 +94,17 @@ function getCommentsForPost($postId) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function redirectAndExit($script) {
+    // Get the domain-relative URL (e.g. /blog/wtv.php or /wtv.php) and work
+    // out the folder (e.g. /blog/ or /)
+    $relativeUrl = $_SERVER['PHP_SELF'];
+    $urlFolder = substr($relativeUrl, 0, strrpos($relativeUrl, '/') + 1);
+
+    // Redirect to the full URL (http:/myhost/blog/script.php)
+    $host = $_SERVER['HTTP_HOST'];
+    $fullUrl = 'http://' . $host . $urlFolder . $script;
+    header('Location: ' . $fullUrl);
+    exit();
+}
+
  ?>

@@ -91,7 +91,7 @@ if($_POST) {
                 </div>
                 <div class="comment-body">
                     <?php // This is already escaped ?>
-                    <?php echo convertNewLinesToParagraphs($row['text']); ?>
+                    <?php echo convertNewLinesToParagraphs($comment['text']); ?>
                 </div>
             </div>
         <?php endforeach ?>

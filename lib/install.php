@@ -5,7 +5,7 @@
  * @return array(count array, error string)
  */
 function installBlog(PDO $pdo) {
-    // Get the PDO DSN string
+    // Get a couple of useful project paths
     $root = getRootPath();
     $db = getDatabasePath();
 

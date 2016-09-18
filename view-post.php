@@ -20,6 +20,26 @@ if (!$row) {
     redirectAndExit('index.php?not=found=1');
 }
 
+$errors = null;
+if($_POST) {
+    $commentData = array(
+        'name'    => $_POST['comment-name'],
+        'website' => $_POST['comment-website'],
+        'text'    => $_POST['comment-text'],
+    );
+
+    $errors = addCommentToPost(
+        $pdo,
+        $postId,
+        $commentData
+    );
+
+    // If there are no errors, redirect back to self and redisplay
+    if (!$errors) {
+        redirectAndExit('view-post.php?post_id=' . $postId);
+    }
+}
+
 // Swap line feed for paragraph breaks
 $bodyText = htmlEscape($row['body']);
 $paraText = str_replace("\n", "</p><p>", $bodyText);
@@ -75,5 +95,6 @@ $paraText = str_replace("\n", "</p><p>", $bodyText);
             </div>
         <?php endforeach ?>
 
+        <?php require 'templates/comment-form.php' ?>
     </body>
 </html>

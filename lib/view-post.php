@@ -7,7 +7,7 @@
  * @throws Exception
  */
 function getPostRow(PDO $pdo, $postId) {
-    
+
     $stmt = $pdo->prepare('
         SELECT
             title, created_at, body
@@ -31,6 +31,8 @@ function getPostRow(PDO $pdo, $postId) {
 
     // Get a row
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row;
 }
 
 ?>

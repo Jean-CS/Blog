@@ -79,9 +79,9 @@ if($_POST) {
     </div>
 
     <div class="comment-list">
-        <h3><?php echo countCommentsForPost($postId); ?> comments</h3>
+        <h3><?php echo countCommentsForPost($pdo, $postId); ?> comments</h3>
 
-        <?php foreach(getCommentsForPost($postId) as $comment): ?>
+        <?php foreach(getCommentsForPost($pdo, $postId) as $comment): ?>
             <?php // For now, just use a horizontal rule-off to split it up a bit ?>
             <hr>
             <div class="comment">

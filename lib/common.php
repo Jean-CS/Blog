@@ -42,13 +42,13 @@ function htmlEscape($html) {
 }
 
 function convertSqlDate($sqlDate) {
-    $date = DateTime::createFromFormat('Y-m-d H:i:s', $sqlDate);
+    $date = DateTime::createFromFormat('Y-m-d', $sqlDate);
 
-    return $date->format('d M Y H:i:s');
+    return $date->format('d M Y');
 }
 
 function getSqlDateForNow() {
-    return date('Y-m-d H:i:s');
+    return date('Y-m-d');
 }
 
 /**
@@ -128,7 +128,7 @@ function tryLogin(PDO $pdo, $username, $password) {
  * has prepared for him/her (e.g. on a public computer) the cracker's copy of the cookie ID will be
  * useless.
  *
- * @param  string $username 
+ * @param  string $username
  */
 function login($username) {
     session_regenerate_id();

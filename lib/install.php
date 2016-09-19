@@ -104,9 +104,10 @@ function createUser(PDO $pdo, $username, $length = 10) {
                 array(
                     'username' => $username,
                     'password' => $hash,
-                    'created_at' => $getSqlDateForNow(),
+                    'created_at' => getSqlDateForNow(),
                 )
             );
+        }
 
         if ($result === false) {
             $error = 'Could not run the user creation';

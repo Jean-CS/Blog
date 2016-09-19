@@ -30,18 +30,16 @@ if ($_POST) {
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html">
-
     <title>A blog application | Login</title>
 
+    <?php require 'templates/head.php' ?>
 </head>
 <body>
     <?php require 'templates/title.php'; ?>
 
     <?php // If we have a username, then the user got something wrong, so lets have an error ?>
     <?php if ($username): ?>
-        <div style="border: 1px solid #ff6666; padding: 6px;">
+        <div class="error box">
             The username or password is incorrect, try again
         </div>
     <?php endif ?>

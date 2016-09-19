@@ -26,18 +26,16 @@ $notFound = isset($_GET['not-found']);
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html">
-
     <title>A blog application</title>
 
+    <?php require 'templates/head.php' ?>
 </head>
 <body>
 
     <?php require 'templates/title.php'; ?>
 
     <?php if ($notFound): ?>
-        <div style="border: 1px solid #ff6666; padding: 6px;">
+        <div class="error box">
             Error: cannot find the requested blog post
         </div>
     <?php endif ?>

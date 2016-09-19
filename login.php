@@ -4,7 +4,7 @@ require_once 'lib/common.php';
 
 // We need to test for a minimum version of PHP, because earlier versions have bugs that affect security
 if (version_compare(PHP_VERSION, '5.3.7') < 0) {
-    throw new 000Exception("This system needs PHP 5.5 or later");
+    throw new Exception("This system needs PHP 5.5 or later");
 }
 
 session_start();
@@ -44,7 +44,7 @@ if ($_POST) {
         <div style="border: 1px solid #ff6666; padding: 6px;">
             The username or password is incorrect, try again
         </div>
-    <?php endif: ?>
+    <?php endif ?>
 
     <p>Login here:</p>
 

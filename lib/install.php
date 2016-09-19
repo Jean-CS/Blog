@@ -93,13 +93,20 @@ function createUser(PDO $pdo, $username, $length = 10) {
 
     // We're storing the password in plaintext, will fix that later
     if (!$error) {
-        $result = $stmt->execute(
-            array(
-                'username' => $username,
-                'password' => $password,
-                'created_at' => $getSqlDateForNow(),
-            )
-        );
+        // Create a has of the password
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        if ($hash === false) {
+            $error = 'Password hashing failed';
+        }
+
+        if (!$error) {
+            $result = $stmt->execute(
+                array(
+                    'username' => $username,
+                    'password' => $hash,
+                    'created_at' => $getSqlDateForNow(),
+                )
+            );
 
         if ($result === false) {
             $error = 'Could not run the user creation';

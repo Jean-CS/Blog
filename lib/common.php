@@ -60,6 +60,28 @@ function getSqlDateForNow() {
 }
 
 /**
+ * Gets a list of posts in reverse order
+ * @param  PDO    $pdo
+ * @return array
+ */
+function getAllPosts(PDO $pdo) {
+    $stmt = $pdo->query(
+        'SELECT
+            id, title, created_at, body
+        FROM
+            post
+        ORDER BY
+            created_at DESC'
+    );
+
+    if ($stmt === false) {
+        throw new Exception("There was a problem running this query");
+    }
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
  * Returns the number of comments for the specified post
  * @param PDO $pdo
  * @param  integer $postId

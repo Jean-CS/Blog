@@ -40,6 +40,10 @@ $posts = getAllPosts($pdo);
 
     <h1>Post list</h1>
 
+    <p>
+        You have <?php echo count($posts) ?> posts.
+    </p>
+
     <form method="post">
         <table id="post-list">
             <tbody>

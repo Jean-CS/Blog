@@ -159,7 +159,7 @@ function isLoggedIn() {
 
 function getAuthUserId(PDO $pdo) {
     // Reply with null if there is no logged-in user
-    if (!loggedIn()) {
+    if (!isLoggedIn()) {
         return null;
     }
 

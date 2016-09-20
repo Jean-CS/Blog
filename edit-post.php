@@ -2,12 +2,29 @@
 
 require_once 'lib/common.php';
 require_once 'lib/edit-post.php';
+require_once 'lib/view-post.php';
 
 session_start();
 
 // Dont let non-auth users see this screen
 if (!isLoggedIn()) {
     redirectAndExit('index.php');
+}
+
+// Empty defaults
+$title = $body = '';
+
+// Init database and get handle
+$pdo = getPDO();
+
+$postId = null;
+if (isset($_GET['post_id'])) {
+    $post = getPostRow($pdo, $_GET['post_id']);
+    if ($post) {
+        $postId = $_GET['post_id'];
+        $title = $post['title'];
+        $body = $post['body'];
+    }
 }
 
 // Handle the post operation here
@@ -26,16 +43,16 @@ if ($_POST) {
 
     if(!$errors) {
         $pdo = getPDO();
-        $userId = getAuthUserId($pdo);
-        $postId = addPost(
-            getPDO(),
-            $title,
-            $body,
-            $userId
-        );
+        // Decide if we are editing or adding
+        if ($postId) {
+            editPost($pdo, $title, $body, $postId);
+        } else {
+            $userId = getAuthUser($pdo);
+            $postId = addPost($pdo, $title, $body, $userId);
 
-        if ($postId === false) {
-            $errors[] = 'Post operation failed';
+            if ($postId === false) {
+                $errors[] = 'Post operation failed';
+            }
         }
     }
 
@@ -69,11 +86,13 @@ if ($_POST) {
     <form class="post-form user-form" method="post">
         <div>
             <label for="post-title">Title:</label>
-            <input id="post-title" type="text" name="post-title">
+            <input id="post-title" type="text" name="post-title"
+                    value="<?php echo htmlEscape($title) ?>">
         </div>
         <div>
             <label for="post-body">Body:</label>
-            <textarea id="post-body" name="post-body" rows="12" cols="70"></textarea>
+            <textarea id="post-body" name="post-body" rows="12" cols="70"
+            ><?php echo htmlEscape($body) ?></textarea>
         </div>
         <div>
             <input type="submit" value="Save post">

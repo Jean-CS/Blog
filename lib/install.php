@@ -62,6 +62,13 @@ function installBlog(PDO $pdo) {
 }
 
 
+/**
+ * Updates the admin user in the database
+ * @param PDO $pdo
+ * @param string $username
+ * @param integer $length
+ * @return array Duple of (password, error)
+ */
 function createUser(PDO $pdo, $username, $length = 10) {
 
     // This alogirthm creates a random password
@@ -78,17 +85,17 @@ function createUser(PDO $pdo, $username, $length = 10) {
 
     // Insert the credentials into the database
     $sql = "
-        INSERT INTO
+        UPDATE
             user
-            (username, password, created_at)
-            VALUES (
-                :username, :password, :created_at
-            )
+        SET
+            password = :password, created_at = :created_at, is_enabled = 1
+        WHERE
+            username = :username
     ";
 
     $stmt = $pdo->prepare($sql);
     if ($stmt === false) {
-        $error = 'Could not prepare the user creation';
+        $error = 'Could not prepare the user update';
     }
 
     // We're storing the password in plaintext, will fix that later
@@ -110,7 +117,7 @@ function createUser(PDO $pdo, $username, $length = 10) {
         }
 
         if ($result === false) {
-            $error = 'Could not run the user creation';
+            $error = 'Could not run the user password update';
         }
     }
 

@@ -29,7 +29,15 @@ function getDsn() {
  * @return \PDO
  */
 function getPDO() {
-    return new PDO(getDSN());
+    $pdo = new PDO(getDsn());
+
+    // Foreign key constraint need to be enabled manually in SQLite
+    $result = $pdo->query('PRAGMA foreign_keys = ON');
+    if ($result === false) {
+        throw new Exception("Could not turn on foreign key constraints");
+    }
+
+    return $pdo;
 }
 
 /**

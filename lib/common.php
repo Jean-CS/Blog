@@ -67,7 +67,8 @@ function getSqlDateForNow() {
 function getAllPosts(PDO $pdo) {
     $stmt = $pdo->query(
         'SELECT
-            id, title, created_at, body
+            id, title, created_at, body,
+            (SELECT COUNT(*) FROM comment WHERE comment.post_id = post_id) comment_count
         FROM
             post
         ORDER BY

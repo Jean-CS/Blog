@@ -1,12 +1,25 @@
 <?php
 
 require_once 'lib/common.php';
+require_once 'lib/list-posts.php';
 
 session_start();
 
 // dont let non-auth users see this screen
 if (!isLoggedIn()) {
     redirectAndExit('index.php');
+}
+
+if ($_POST) {
+    $deleteResponse = $_POST['delete-post'];
+    if ($deleteResponse) {
+        $keys = array_keys($deleteResponse);
+        $deletePostId = $keys[0];
+        if ($deletePostId) {
+            deletePost(getPDO(), $deletePostId);
+            redirectAndExit('list-posts.php');
+        }
+    }
 }
 
 // Connect to the database, run a query

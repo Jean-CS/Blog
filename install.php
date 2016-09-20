@@ -53,7 +53,6 @@ if (isset($_SESSION['try-install'])) {
 <html>
 <head>
     <title>Blog installer</title>
-
     <?php require 'templates/head.php'; ?>
 </head>
 <body>
@@ -96,13 +95,8 @@ if (isset($_SESSION['try-install'])) {
     <p>Click the install button to reset the database.</p>
 
     <form method="post">
-        <input
-            name="install"
-            type="submit"
-            value="Install"
-        />
+        <input name="install" type="submit" value="Install">
     </form>
-
 
 </body>
 </html>

@@ -105,16 +105,16 @@ function createUser(PDO $pdo, $username, $length = 10) {
         if ($hash === false) {
             $error = 'Password hashing failed';
         }
+    }
 
-        if (!$error) {
-            $result = $stmt->execute(
-                array(
-                    'username' => $username,
-                    'password' => $hash,
-                    'created_at' => getSqlDateForNow(),
-                )
-            );
-        }
+    if (!$error) {
+        $result = $stmt->execute(
+            array(
+                'username' => $username,
+                'password' => $hash,
+                'created_at' => getSqlDateForNow(),
+            )
+        );
 
         if ($result === false) {
             $error = 'Could not run the user password update';

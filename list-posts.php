@@ -31,7 +31,6 @@ $posts = getAllPosts($pdo);
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
     <title>A blog application | Blog posts</title>
     <?php require 'templates/head.php' ?>
 </head>
@@ -40,9 +39,7 @@ $posts = getAllPosts($pdo);
 
     <h1>Post list</h1>
 
-    <p>
-        You have <?php echo count($posts) ?> posts.
-    </p>
+    <p>You have <?php echo count($posts) ?> posts.</p>
 
     <form method="post">
         <table id="post-list">
@@ -77,8 +74,8 @@ $posts = getAllPosts($pdo);
                         </td>
                     </tr>
                 <?php endforeach ?>
-        </tbody>
-    </table>
-</form>
+            </tbody>
+        </table>
+    </form>
 </body>
 </html>

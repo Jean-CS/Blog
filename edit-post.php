@@ -47,7 +47,7 @@ if ($_POST) {
         if ($postId) {
             editPost($pdo, $title, $body, $postId);
         } else {
-            $userId = getAuthUser($pdo);
+            $userId = getAuthUserId($pdo);
             $postId = addPost($pdo, $title, $body, $userId);
 
             if ($postId === false) {
@@ -66,7 +66,6 @@ if ($_POST) {
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
     <title>A blog application | New post</title>
     <?php require 'templates/head.php' ?>
 </head>
@@ -93,7 +92,7 @@ if ($_POST) {
         <div>
             <label for="post-title">Title:</label>
             <input id="post-title" type="text" name="post-title"
-                    value="<?php echo htmlEscape($title) ?>">
+            value="<?php echo htmlEscape($title) ?>">
         </div>
         <div>
             <label for="post-body">Body:</label>
@@ -101,9 +100,10 @@ if ($_POST) {
             ><?php echo htmlEscape($body) ?></textarea>
         </div>
         <div>
-            <input type="submit" value="Save post">
+            <input type="submit" value="Submit comment">
             <a href="index.php">Cancel</a>
         </div>
     </form>
+    
 </body>
 </html>

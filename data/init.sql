@@ -24,6 +24,8 @@ INSERT INTO user (
     "admin", "unhashed-password", datetime('now', '-3 months'), 0
 );
 
+DROP TABLE IF EXISTS post;
+
 CREATE TABLE post (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     title VARCHAR NOT NULL,

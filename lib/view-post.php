@@ -104,9 +104,9 @@ function getPostRow(PDO $pdo, $postId) {
         throw new Exception('There was a problem preparing this query');
     }
 
-    $result = $stmt->execute([
-        'id' => $postId,
-    ]);
+    $result = $stmt->execute(
+        array('id' => $postId, )
+    );
 
     if ($result === false) {
         throw new Exception('There was a problem preparing this query');

@@ -99,9 +99,9 @@ function getCommentsForPost(PDO $pdo, $postId) {
     ";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'post_id' => $postId,
-    ]);
+    $stmt->execute(
+        array('post_id' => $postId, )
+    );
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

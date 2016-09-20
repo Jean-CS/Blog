@@ -30,13 +30,12 @@ if ($_POST) {
     }
 }
 
- ?>
+?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>A blog application | Login</title>
-
     <?php require 'templates/head.php' ?>
 </head>
 <body>
@@ -62,6 +61,6 @@ if ($_POST) {
         </div>
         <input type="submit" name="submit" value="Login">
     </form>
-
+    
 </body>
 </html>

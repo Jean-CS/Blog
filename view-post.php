@@ -54,7 +54,6 @@ if($_POST) {
 <html>
 <head>
     <?php require 'templates/head.php' ?>
-
     <title>
         A blog application |
         <?php echo htmlEscape($row['title']); ?>
@@ -77,7 +76,6 @@ if($_POST) {
     </div>
 
     <?php require 'templates/list-comments.php' ?>
-
     <?php require 'templates/comment-form.php' ?>
 </body>
 </html>

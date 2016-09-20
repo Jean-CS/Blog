@@ -10,17 +10,15 @@ $posts = getAllPosts($pdo);
 
 $notFound = isset($_GET['not-found']);
 
- ?>
+?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>A blog application</title>
-
     <?php require 'templates/head.php' ?>
 </head>
 <body>
-
     <?php require 'templates/title.php'; ?>
 
     <?php if ($notFound): ?>
@@ -45,7 +43,7 @@ $notFound = isset($_GET['not-found']);
                 </p>
                 <div class="post-controls">
                     <a
-                        href="view-post.php?post_id=<?php echo $post['id']; ?>"
+                    href="view-post.php?post_id=<?php echo $post['id']; ?>"
                     >Read more...</a>
                     <?php if (isLoggedIn()): ?>
                         |

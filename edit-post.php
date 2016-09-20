@@ -4,6 +4,11 @@ require_once 'lib/common.php';
 
 session_start();
 
+// Dont let non-auth users see this screen
+if (!isLoggedIn()) {
+    redirectAndExit('index.php');
+}
+
 ?>
 
 <!DOCTYPE html>

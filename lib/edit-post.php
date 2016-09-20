@@ -6,13 +6,15 @@ function addPost(PDO $pdo, $title, $body, $userId) {
             post
             (title, body, user_id, created_at)
             VALUES
-            (:title, :body, :user_id,:created_at)
+            (:title, :body, :user_id, :created_at)
     ";
 
     $stmt = $pdo->prepare($sql);
     if ($stmt === false) {
         throw new Exception("Could not prepare post insert query");
     }
+
+    echo print_r($stmt);
 
     // Now run the query, with these parameters
     $result = $stmt->execute(
@@ -24,7 +26,9 @@ function addPost(PDO $pdo, $title, $body, $userId) {
         )
     );
 
-    if(!$result) {
+    echo print_r($result);
+
+    if($result === false) {
         throw new Exception("Could not run post insert query");
     }
 

@@ -102,6 +102,7 @@ if ($_POST) {
         </div>
         <div>
             <input type="submit" value="Save post">
+            <a href="index.php">Cancel</a>
         </div>
     </form>
 </body>

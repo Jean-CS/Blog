@@ -1,5 +1,45 @@
 <?php
 
+function handleAddComment(PDO $pdo, $postId, array $commentData) {
+    $errors = addCommentToPost(
+        $pdo,
+        $postId,
+        $commentData
+    );
+
+    // If there are no errors, redirect back to self and redisplay
+    if (!$errors) {
+        redirectAndExit('view-post.php?post_id=' . $postId);
+    }
+
+    return $errors;
+}
+
+function deleteComment(PDO $pdo, $postId, $commentId) {
+    // The comment id on its own would suffice, but post_id is a nice extra safety check
+    $sql = "
+        DELETE FROM
+            comment
+        WHERE
+            post_id = :post_id
+            AND id = :comment_id
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    if ($stmt === false) {
+        throw new Exception('There was a problem preparing this query');
+    }
+
+    $result = $stmt->execute(
+        array(
+            'post_id' => $postId,
+            'comment_id' => $commentId,
+        )
+    );
+
+    return $result !== false;
+}
+
 /**
  * Retrieves a single post
  * @param  PDO    $pdo

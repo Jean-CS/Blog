@@ -155,6 +155,7 @@ function login($email) {
 }
 
 function logout() {
+    session_destroy();
     unset($_SESSION['logged_in_email']);
 }
 

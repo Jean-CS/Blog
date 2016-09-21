@@ -15,17 +15,17 @@ if (isLoggedIn()) {
 }
 
 // Handle the form posting
-$username = '';
+$email = '';
 if ($_POST) {
     // Init database
     $pdo = getPDO();
 
     // We redirect only if the password is correct
-    $username = $_POST['username'];
-    $ok = tryLogin($pdo, $username, $_POST['password']);
+    $email = $_POST['email'];
+    $ok = tryLogin($pdo, $email, $_POST['password']);
 
     if ($ok) {
-        login($username);
+        login($email);
         redirectAndExit('index.php');
     }
 }
@@ -41,10 +41,10 @@ if ($_POST) {
 <body>
     <?php require 'templates/title.php'; ?>
 
-    <?php // If we have a username, then the user got something wrong, so lets have an error ?>
-    <?php if ($username): ?>
+    <?php // If we have a email, then the user got something wrong, so lets have an error ?>
+    <?php if ($email): ?>
         <div class="error box">
-            The username or password is incorrect, try again
+            The email or password is incorrect, try again
         </div>
     <?php endif ?>
 
@@ -52,8 +52,8 @@ if ($_POST) {
 
     <form class="user-form" method="post">
         <div>
-            <label for="username">Username:</label>
-            <input id="username" type="text" name="username" value="<?php echo htmlEscape($username); ?>">
+            <label for="email">Email:</label>
+            <input id="email" type="text" name="email" value="<?php echo htmlEscape($email); ?>">
         </div>
         <div>
             <label for="password">Password:</label>
@@ -61,6 +61,6 @@ if ($_POST) {
         </div>
         <input type="submit" name="submit" value="Login">
     </form>
-    
+
 </body>
 </html>

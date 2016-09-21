@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     username VARCHAR NOT NULL,
+    email VARCHAR NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
     created_at VARCHAR NOT NULL,
     is_enabled BOOLEAN NOT NULL DEFAULT true
@@ -19,9 +20,9 @@ This will become user = 1. Its created just to satisfy constraints here.
 The password will be properly hashed in the installer
  */
 INSERT INTO user (
-    username, password, created_at, is_enabled
+    username, password, email, created_at, is_enabled
 ) VALUES (
-    "admin", "unhashed-password", datetime('now', '-3 months'), 0
+    "admin", "unhashed-password", "admin@admin.com", datetime('now', '-3 months'), 0
 );
 
 DROP TABLE IF EXISTS post;

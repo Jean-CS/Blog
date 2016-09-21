@@ -15,11 +15,13 @@ if ($_POST) {
     $password = '';
     if (!$error) {
         $username = 'admin';
-        list($password, $error) = createUser($pdo, $username);
+        $email = 'admin@admin.com';
+        list($password, $error) = createUser($pdo, $email);
     }
 
     $_SESSION['count']       = $rowCounts;
     $_SESSION['error']       = $error;
+    $_SESSION['email']       = $email;
     $_SESSION['username']    = $username;
     $_SESSION['password']    = $password;
     $_SESSION['try-install'] = true;
@@ -36,12 +38,14 @@ if (isset($_SESSION['try-install'])) {
     $attempted = true;
     $count = $_SESSION['count'];
     $error = $_SESSION['error'];
+    $email = $_SESSION['email'];
     $username = $_SESSION['username'];
     $password = $_SESSION['password'];
 
     // Unset session variables, so we only report the install/failure once
     unset($_SESSION['count']);
     unset($_SESSION['error']);
+    unset($_SESSION['email']);
     unset($_SESSION['username']);
     unset($_SESSION['password']);
     unset($_SESSION['try-install']);

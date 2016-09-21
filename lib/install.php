@@ -65,11 +65,11 @@ function installBlog(PDO $pdo) {
 /**
  * Updates the admin user in the database
  * @param PDO $pdo
- * @param string $username
+ * @param string $email
  * @param integer $length
  * @return array Duple of (password, error)
  */
-function createUser(PDO $pdo, $username, $length = 10) {
+function createUser(PDO $pdo, $email, $length = 10) {
 
     // This alogirthm creates a random password
     $alphabet = range(ord('A'), ord('z'));
@@ -90,7 +90,7 @@ function createUser(PDO $pdo, $username, $length = 10) {
         SET
             password = :password, created_at = :created_at, is_enabled = 1
         WHERE
-            username = :username
+            email = :email
     ";
 
     $stmt = $pdo->prepare($sql);
@@ -110,7 +110,7 @@ function createUser(PDO $pdo, $username, $length = 10) {
     if (!$error) {
         $result = $stmt->execute(
             array(
-                'username' => $username,
+                'email' => $email,
                 'password' => $hash,
                 'created_at' => getSqlDateForNow(),
             )

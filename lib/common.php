@@ -107,27 +107,36 @@ function getCommentsForPost(PDO $pdo, $postId) {
 }
 
 
-function tryLogin(PDO $pdo, $username, $password) {
+function tryLogin(PDO $pdo, $email, $password) {
     $sql = "
         SELECT
-            password
+            username, password
         FROM
             user
         WHERE
-            username = :username
+            email = :email
             AND is_enabled = 1
     ";
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(
-        array('username' => $username, )
-    );
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(
+            array('email' => $email, )
+        );
 
-    // Get the hash from this row, and use the thid-party hashing library to check it
-    $hash = $stmt->fetchColumn();
-    $success = password_verify($password, $hash);
+        // Get the hash from this row, and use the thid-party hashing library to check it
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $success;
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['logged_in_username'] = $user['username'];
+            return true;
+        } else {
+            return false;
+        }
+
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
 }
 
 /**
@@ -139,14 +148,14 @@ function tryLogin(PDO $pdo, $username, $password) {
  *
  * @param  string $username
  */
-function login($username) {
+function login($email) {
     session_regenerate_id();
 
-    $_SESSION['logged_in_username'] = $username;
+    $_SESSION['logged_in_email'] = $email;
 }
 
 function logout() {
-    unset($_SESSION['logged_in_username']);
+    unset($_SESSION['logged_in_email']);
 }
 
 function getAuthUser() {
@@ -154,7 +163,7 @@ function getAuthUser() {
 }
 
 function isLoggedIn() {
-    return isset($_SESSION['logged_in_username']);
+    return isset($_SESSION['logged_in_email']);
 }
 
 function getAuthUserId(PDO $pdo) {
@@ -169,14 +178,14 @@ function getAuthUserId(PDO $pdo) {
         FROM
             user
         WHERE
-            username = :username
+            email = :email
             AND is_enabled = 1
     ";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute(
         array(
-            'username' => getAuthUser()
+            'email' => getAuthUser()
         )
     );
 

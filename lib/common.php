@@ -60,6 +60,16 @@ function getSqlDateForNow() {
 }
 
 /**
+ * We need to test for a minimum version of PHP, because earlier versions have bugs that affect security
+ */
+function checkPHPVersion() {
+    if (version_compare(PHP_VERSION, '5.3.7') < 0) {
+        throw new Exception("This system needs PHP 5.5 or later");
+    }
+    return true;
+}
+
+/**
  * Gets a list of posts in reverse order
  * @param  PDO    $pdo
  * @return array
@@ -104,6 +114,83 @@ function getCommentsForPost(PDO $pdo, $postId) {
     );
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+function verifyNewUser(PDO $pdo, $username, $email) {
+    try {
+        $sql = "
+            SELECT
+                username, email
+            FROM
+                user
+            WHERE
+                username = :username
+                OR email = :email
+        ";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(
+            array(
+                'username' => $username,
+                'email' => $email,
+            )
+        );
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row['username'] === $username || $row['email'] === $email) {
+            return false;
+        }
+
+        return true;
+
+    } catch(PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
+
+function tryRegister(PDO $pdo, $username, $email, $password) {
+
+    if(!verifyNewUser($pdo, $username, $email)) {
+        return false;
+    }
+
+    $sql = "
+        INSERT INTO
+            user
+            (username, email, password, created_at, is_enabled)
+            VALUES
+            (:username, :email, :password, :created_at, :is_enabled)
+    ";
+
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+
+    if ($hash === false) {
+        throw new Exception("Password hashing failed");
+    }
+
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(
+            array(
+                'username' => $username,
+                'email' => $email,
+                'password' => $hash,
+                'created_at' => getSqlDateForNow(),
+                'is_enabled' => 1,
+            )
+        );
+
+        if ($stmt === false) {
+    		throw new Exception('Could not run post insert query');
+    	}
+
+        return true;
+
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
 }
 
 

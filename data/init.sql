@@ -22,7 +22,7 @@ The password will be properly hashed in the installer
 INSERT INTO user (
     username, password, email, created_at, is_enabled
 ) VALUES (
-    "admin", "unhashed-password", "admin@admin.com", datetime('now', '-3 months'), 0
+    "admin", "admin@admin.com", "unhashed-password", datetime('now', '-3 months'), 0
 );
 
 DROP TABLE IF EXISTS post;

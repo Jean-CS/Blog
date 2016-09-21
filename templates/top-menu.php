@@ -11,6 +11,7 @@
             <a href="logout.php">Log out</a>
         <?php else: ?>
             <a href="login.php">Log in</a>
+            <a href="register.php">Register</a>
         <?php endif ?>
     </div>
 </div>

@@ -2,10 +2,7 @@
 
 require_once 'lib/common.php';
 
-// We need to test for a minimum version of PHP, because earlier versions have bugs that affect security
-if (version_compare(PHP_VERSION, '5.3.7') < 0) {
-    throw new Exception("This system needs PHP 5.5 or later");
-}
+checkPHPVersion();
 
 session_start();
 

@@ -117,7 +117,7 @@ function getCommentsForPost(PDO $pdo, $postId) {
 }
 
 
-function verifyNewUser(PDO $pdo, $username, $email) {
+function isNewUser(PDO $pdo, $username, $email) {
     try {
         $sql = "
             SELECT
@@ -138,11 +138,14 @@ function verifyNewUser(PDO $pdo, $username, $email) {
         );
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($row['username'] === $username || $row['email'] === $email) {
-            return false;
+        if ($row['username'] === $username) {
+            $errors[] = 'Sorry, username already taken';
+        }
+        if ($row['email'] === $email) {
+            $errors[] = 'Sorry, email already taken';
         }
 
-        return true;
+        return $errors;
 
     } catch(PDOException $e) {
         echo $e->getMessage();
@@ -151,11 +154,6 @@ function verifyNewUser(PDO $pdo, $username, $email) {
 
 
 function tryRegister(PDO $pdo, $username, $email, $password) {
-
-    if(!verifyNewUser($pdo, $username, $email)) {
-        return false;
-    }
-
     $sql = "
         INSERT INTO
             user
@@ -212,10 +210,10 @@ function tryLogin(PDO $pdo, $email, $password) {
         );
 
         // Get the hash from this row, and use the thid-party hashing library to check it
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['logged_in_username'] = $user['username'];
+        if (password_verify($password, $userRow['password'])) {
+            $_SESSION['logged_in_username'] = $userRow['username'];
             return true;
         } else {
             return false;

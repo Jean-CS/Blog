@@ -52,10 +52,15 @@ if ($_POST) {
     if (!$errors) {
         // Init database
         $pdo = getPDO();
-        $ok = tryRegister($pdo, $username, $email, $password);
 
-        if ($ok) {
-            redirectAndExit('index.php');
+        $errors = isNewUser($pdo, $username, $email);
+        
+        if (!$errors) {
+            $ok = tryRegister($pdo, $username, $email, $password);
+
+            if ($ok) {
+                redirectAndExit('index.php');
+            }
         }
     }
 }
